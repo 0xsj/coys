@@ -45,7 +45,14 @@ func (db *Database) CreateOrUpdate(entity interface{}, tableName string) (respon
 
 }
 
-func (db *Database) Delete() {}
+func (db *Database) Delete(condition map[string]interface{}, tableName string) (response *dynamodb.DeleteItemOutput, err error) {
+	conditionParsed, err := dynamodbattribute.MarshalMap(condition)
+	input := &dynamodb.DeleteItemInput{
+		Key:       conditionParsed,
+		TableName: aws.String(tableName),
+	}
+	return db.connection.DeleteItem(input)
+}
 
 func (db *Database) Health() bool {
 	return false
