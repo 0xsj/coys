@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/go-chi/chi"
 	"github.com/sjtommylee/go-dynamodb/internal/repository/adapter"
+	// HealthHandler "github.com/sjtommylee/internal/handlers/health"
 )
 
 type Router struct {
@@ -38,22 +39,22 @@ func (r *Router) SetConfigRouter() {
 func (r *Router) RouterHealth(repository adapter.Interface) {
 	handler := HealthHandler.newHandler(repository)
 	r.router.Route("/health", func(route chi.Router) {
-		route.Post
-		route.Get
-		route.Put
-		route.Delete
-		route.Options
+		route.Post("/", handler.Post)
+		route.Get("/", handler.Get)
+		route.Put("/", handler.Put)
+		route.Delete("/", handler.Delete)
+		route.Options("/", handler.Options)
 	})
 }
 
 func (r *Router) RouterProduct(repository adapter.Interface) {
 	handler := ProductHandler.NewHandler(repository)
 	r.router.Route("/product", func(route, chi.Router) {
-		route.Post
-		route.Get
-		route.Put
-		route.Delete
-		route.Options
+		route.Post("/", handler.Post)
+		route.Get("/", handler.Get)
+		route.Put("/{ID}", handler.Put)
+		route.Delete("/{ID}", handler.Delete)
+		route.Options("/", handler.Options)
 	})
 }
 
