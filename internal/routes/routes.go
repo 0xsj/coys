@@ -16,7 +16,13 @@ func NewRouter() *Router {
 	}
 }
 
-func (r *Router) SetRouters() *chi.Mux {}
+func (r *Router) SetRouters(repository adapter.Interface) *chi.Mux {
+	r.SetConfigRouter()
+	r.RouterHealth(repository)
+	r.RouterProduct(repository)
+
+	return r.router
+}
 
 func (r *Router) SetConfigRouter() {}
 
