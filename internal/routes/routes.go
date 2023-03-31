@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/go-chi/chi"
+	"github.com/sjtommylee/go-dynamodb/internal/repository/adapter"
 )
 
 type Router struct {
@@ -24,11 +25,19 @@ func (r *Router) SetRouters(repository adapter.Interface) *chi.Mux {
 	return r.router
 }
 
-func (r *Router) SetConfigRouter() {}
+func (r *Router) SetConfigRouter() {
+	r.EnableCors()
+	r.EnableLogger()
+	r.EnableTimeout()
+	r.EnableRecovery()
+	r.EnableRequestID()
+	r.EnableRealIP()
 
-func RouterHealth() {}
+}
 
-func RouterProduct() {}
+func (r *Router) RouterHealth(repository adapter.Interface) {}
+
+func (r *Router) RouterProduct() {}
 
 func EnableTimeout() {}
 
