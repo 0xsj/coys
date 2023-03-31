@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 	"github.com/sjtommylee/go-dynamodb/internal/repository/adapter"
 	// HealthHandler "github.com/sjtommylee/internal/handlers/health"
 )
@@ -59,10 +60,12 @@ func (r *Router) RouterProduct(repository adapter.Interface) {
 }
 
 func (r *Router) EnableTimeout() *Router {
+	r.router.Use(middleware.Logger)
 	return r
 }
 
 func (r *Router) EnableLogger() *Router {
+	r.router.Use(middleware.Timeout(r.config.GetTimeout()))
 	return r
 }
 
