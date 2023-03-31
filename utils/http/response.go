@@ -48,16 +48,22 @@ func StatusNoContent(w http.ResponseWriter, r *http.Request) {
 }
 
 // 400
-func StatusBadRequest(w http.ResponseWriter, r *http.Request, err error) {}
+func StatusBadRequest(w http.ResponseWriter, r *http.Request, err error) {
+	body := map[string]interface{}{"error": err.Error()}
+	response := NewResponse(body, http.StatusBadRequest)
+	response.SendResponse(w, r)
+}
 
 // 404
-func StatusNotFound(w http.ResponseWriter) {}
+func StatusNotFound(w http.ResponseWriter, r *http.Request, err error) {
+
+}
 
 // 405
-func StatusMethodNotAllowed(w http.ResponseWriter) {}
+func StatusMethodNotAllowed(w http.ResponseWriter, r *http.Request) {}
 
 // 409
-func StatusConflict(w http.ResponseWriter) {}
+func StatusConflict(w http.ResponseWriter, r *http.Request, err error) {}
 
 // 500
-func StatusInternalServerError(w http.ResponseWriter) {}
+func StatusInternalServerError(w http.ResponseWriter, r *http.Request, err error) {}
