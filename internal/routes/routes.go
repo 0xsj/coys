@@ -70,17 +70,21 @@ func (r *Router) EnableLogger() *Router {
 }
 
 func (r *Router) EnableCors() *Router {
+	r.router.Use(r.config.Cors)
 	return r
 }
 
 func (r *Router) EnableRecovery() *Router {
+	r.router.Use(middleware.Recoverer)
 	return r
 }
 
 func (r *Router) EnableRequestID() *Router {
+	r.router.Use(middleware.RequestID)
 	return r
 }
 
 func (r *Router) EnableRealIP() *Router {
+	r.router.Use(middleware.RealIP)
 	return r
 }
