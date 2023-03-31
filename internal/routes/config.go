@@ -3,6 +3,8 @@ package routes
 import (
 	"net/http"
 	"time"
+
+	"github.com/go-chi/cors"
 )
 
 type Config struct {
@@ -13,7 +15,9 @@ func NewConfig() *Config {
 	return &Config{}
 }
 
-func (c *Config) Cors(next http.Handler) http.Handler {}
+func (c *Config) Cors(next http.Handler) http.Handler {
+	return cors.New(cors.Options{}).Handler(next)
+}
 
 func (c *Config) SetTimeout(timeSeconds int) *Config {
 	c.timeout = time.Duration(timeSeconds) * time.Second
