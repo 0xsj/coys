@@ -37,16 +37,46 @@ func (r *Router) SetConfigRouter() {
 
 func (r *Router) RouterHealth(repository adapter.Interface) {
 	handler := HealthHandler.newHandler(repository)
+	r.router.Route("/health", func(route chi.Router) {
+		route.Post
+		route.Get
+		route.Put
+		route.Delete
+		route.Options
+	})
 }
 
-func (r *Router) RouterProduct() {}
+func (r *Router) RouterProduct(repository adapter.Interface) {
+	handler := ProductHandler.NewHandler(repository)
+	r.router.Route("/product", func(route, chi.Router) {
+		route.Post
+		route.Get
+		route.Put
+		route.Delete
+		route.Options
+	})
+}
 
-func EnableTimeout() {}
+func (r *Router) EnableTimeout() *Router {
+	return r
+}
 
-func EnableCors() {}
+func (r *Router) EnableLogger() *Router {
+	return r
+}
 
-func EnableRecovery() {}
+func (r *Router) EnableCors() *Router {
+	return r
+}
 
-func EnableRequestID() {}
+func (r *Router) EnableRecovery() *Router {
+	return r
+}
 
-func EnableRealIP() {}
+func (r *Router) EnableRequestID() *Router {
+	return r
+}
+
+func (r *Router) EnableRealIP() *Router {
+	return r
+}
