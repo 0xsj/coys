@@ -1,6 +1,9 @@
 package routes
 
-import "time"
+import (
+	"net/http"
+	"time"
+)
 
 type Config struct {
 	timeout time.Duration
@@ -10,8 +13,13 @@ func NewConfig() *Config {
 	return &Config{}
 }
 
-func Cors() {}
+func (c *Config) Cors(next http.Handler) http.Handler {}
 
-func SetTimeout() {}
+func (c *Config) SetTimeout(timeSeconds int) *Config {
+	c.timeout = time.Duration(timeSeconds) * time.Second
+	return c
+}
 
-func GetTimeout() {}
+func (c *Config) GetTimeout() time.Duration {
+	return c.timeout
+}
