@@ -20,6 +20,7 @@ func NewAdapter() Interface {
 
 func (db *Database) FindAll() {}
 
+// method named findone of a struct type
 func (db *Database) FindOne(condition map[string]interface{}, tableName string) (response *dynamodb.GetItemOutput, err error) {
 	conditionParsed, err := dynamodbattribute.MarshalMap(condition)
 	if err != nil {
@@ -54,6 +55,8 @@ func (db *Database) Delete(condition map[string]interface{}, tableName string) (
 	return db.connection.DeleteItem(input)
 }
 
+// health check for db, takes in a pointer for struct type db
 func (db *Database) Health() bool {
-	return false
+	_, err := db.connection.ListTables(&dynamodb.ListTablesInput{}) // discard the first return with _, we only care about the error that it returns
+	return err == nil
 }
