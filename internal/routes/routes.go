@@ -35,7 +35,9 @@ func (r *Router) SetConfigRouter() {
 
 }
 
-func (r *Router) RouterHealth(repository adapter.Interface) {}
+func (r *Router) RouterHealth(repository adapter.Interface) {
+	handler := HealthHandler.newHandler(repository)
+}
 
 func (r *Router) RouterProduct() {}
 
