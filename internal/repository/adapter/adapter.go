@@ -20,16 +20,30 @@ func NewAdapter() Interface {
 
 func (db *Database) FindAll() {}
 
-func (db *Database) FindOne(condition map[string]interface{}, tablename string) (response *dynamodb.GetItemOutput, err error) {
+func (db *Database) FindOne(condition map[string]interface{}, tableName string) (response *dynamodb.GetItemOutput, err error) {
 	conditionParsed, err := dynamodbattribute.MarshalMap(condition)
+	if err != nil {
+		return nil, err
+	}
 	input := &dynamodb.GetItemInput{
-		TableName: aws.String(tablename),
+		TableName: aws.String(tableName),
 		Key:       conditionParsed,
 	}
 	return db.connection.GetItem(input)
 }
 
-func (db *Database) CreateOrUpdate() {}
+func (db *Database) CreateOrUpdate(entity interface{}, tableName string) (response *dynamodb.PutItemOutput, err error) {
+	entityParsed, err := dynamodbattribute.MarshalMap(entity)
+	if err != nil {
+		return nil, err
+	}
+	input := &dynamodb.PutItemInput{
+		Item:      entityParsed,
+		TableName: aws.String(tableName),
+	}
+	return db.connection.PutItem(input)
+
+}
 
 func (db *Database) Delete() {}
 
