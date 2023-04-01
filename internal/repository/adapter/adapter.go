@@ -80,4 +80,6 @@ func (db *Database) Delete(condition map[string]interface{}, tableName string) (
 	return db.connection.DeleteItem(input)
 }
 
-func ListTables() {}
+func (db *Database) ListTables() (*dynamodb.ListTablesOutput, error) {
+	return db.connection.ListTables(&dynamodb.ListTablesInput{})
+}

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/sjtommylee/go-dynamodb/config"
 	"github.com/sjtommylee/go-dynamodb/internal/repository/adapter"
 	"github.com/sjtommylee/go-dynamodb/internal/repository/instance"
@@ -63,7 +64,10 @@ func CallMigrateAndAppendError(errors *[]error, connection adapter.Interface) {
 
 }
 
-func CheckTables(connection adapter.Interface) error {
-	response, err := connection.ListTables()
-	return nil
+func CheckTables(connection adapter.Interface) (*dynamodb.ListTablesOutput, error) {
+	response, err := connection.ListTables(&dynamodb.ListTablesInput{})
+	if err != nil {
+		return nil, err
+	}
+	return err
 }
