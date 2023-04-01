@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/sjtommylee/go-dynamodb/config"
 	"github.com/sjtommylee/go-dynamodb/internal/repository/adapter"
 	"github.com/sjtommylee/go-dynamodb/internal/repository/instance"
@@ -28,14 +27,14 @@ func NewServer(port string, repository adapter.Interface) *Server {
 }
 
 func (s *Server) StartServer() {
-	errors := Migrate(s.Repository)
-	if len(errors) > 0 {
-		for _, err := range errors {
-			logger.PANIC("Error on migrations", err)
-		}
-	}
+	// errors := Migrate(s.Repository)
+	// if len(errors) > 0 {
+	// 	for _, err := range errors {
+	// 		logger.PANIC("Error on migrations", err)
+	// 	}
+	// }
 
-	logger.PANIC("", CheckTables(s.Repository))
+	// logger.PANIC("", CheckTables(s.Repository))
 	port := fmt.Sprintf(":%v", s.Port)
 	router := routes.NewRouter().SetRouters(s.Repository)
 	logger.INFO("service is running on port", port)
@@ -54,20 +53,19 @@ func main() {
 	server.StartServer()
 }
 
-func Migrate(connection adapter.Interface) []error {
-	var errors []error
-	CallMigrateAndAppendError(&errors, connection)
-	return errors
-}
+// func Migrate(connection adapter.Interface) []error {
+// 	var errors []error
+// 	CallMigrateAndAppendError(&errors, connection)
+// 	return errors
+// }
 
-func CallMigrateAndAppendError(errors *[]error, connection adapter.Interface) {
+// func CallMigrateAndAppendError(errors *[]error, connection adapter.Interface) {
 
-}
-
-func CheckTables(connection adapter.Interface) (*dynamodb.ListTablesOutput, error) {
-	response, err := connection.ListTables(&dynamodb.ListTablesInput{})
-	if err != nil {
-		return nil, err
-	}
-	return err
-}
+// }
+// func CheckTables(connection adapter.Interface) (*dynamodb.ListTablesOutput, error) {
+// 	response, err := connection.ListTables(&dynamodb.ListTablesInput{})
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return response, err
+// }
