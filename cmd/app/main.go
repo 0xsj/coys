@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
-	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/sjtommylee/go-dynamodb/config"
 	"github.com/sjtommylee/go-dynamodb/internal/repository/adapter"
 	"github.com/sjtommylee/go-dynamodb/internal/repository/instance"
@@ -26,7 +26,21 @@ func NewServer(port string, repository adapter.Interface) *Server {
 	}
 }
 
-func StartServer() {}
+func (s *Server) StartServer() {
+	errors := Migrate(s.Repository)
+	if len(errors) > 0 {
+		for _, err := range errors {
+			logger.PANIC("Error on migrations", err)
+		}
+	}
+
+	logger.PANIC("", CheckTables(s.Repository))
+	port := fmt.Sprintf(":%v", s.Port)
+	router := routes.NewRouter().SetRouters(s.Repository)
+	logger.INFO("service is running on port", port)
+	server := http.ListenAndServe(port, router)
+	log.Fatal(server)
+}
 
 // main entry point
 func main() {
@@ -35,27 +49,21 @@ func main() {
 	repository := adapter.NewAdapter(connection)
 
 	logger.INFO("service starting....", nil)
-	errors := Migrate(connection)
-	if len(errors) > 0 {
-		for _, err := range errors {
-			logger.PANIC("Error on migrations", err)
-		}
-	}
-	logger.PANIC("", CheckTables(connection))
-	port := fmt.Sprintf(":%v", configs.Port)
-	router := routes.NewRouter().SetRouters(repository)
-	logger.INFO("service is running on port", port)
-	server := http.ListenAndServe(port, router)
-	log.Fatal(server)
+	server := NewServer(strconv.Itoa(configs.Port), repository)
+	server.StartServer()
 }
 
-func Migrate(connection *dynamodb.DynamoDB) []error {
+func Migrate(connection adapter.Interface) []error {
 	var errors []error
-
+	CallMigrateAndAppendError(&errors, connection)
 	return errors
 }
 
-func CheckTables(connection *dynamodb.DynamoDB) error {
-	// response, err := conenction.ListTables()
+func CallMigrateAndAppendError(errors *[]error, connection adapter.Interface) {
+
+}
+
+func CheckTables(connection adapter.Interface) error {
+	response, err := connection.ListTables()
 	return nil
 }

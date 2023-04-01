@@ -18,6 +18,7 @@ type Interface interface {
 	FindOne(condition map[string]interface{}, tableName string) (response *dynamodb.GetItemOutput, err error)
 	CreateOrUpdate(entity interface{}, tableName string) (response *dynamodb.PutItemOutput, err error)
 	Delete(condition map[string]interface{}, tableName string) (response *dynamodb.DeleteItemOutput, err error)
+	ListTables() (*dynamodb.ListTablesOutput, error)
 }
 
 // health check for db, takes in a pointer for struct type db
@@ -78,3 +79,5 @@ func (db *Database) Delete(condition map[string]interface{}, tableName string) (
 	}
 	return db.connection.DeleteItem(input)
 }
+
+func ListTables() {}
