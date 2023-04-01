@@ -13,6 +13,22 @@ import (
 	"github.com/sjtommylee/go-dynamodb/utils/logger"
 )
 
+// new server struct for dependency injection.
+type Server struct {
+	Port       string
+	Repository adapter.Interface
+}
+
+func NewServer(port string, repository adapter.Interface) *Server {
+	return &Server{
+		Port:       port,
+		Repository: repository,
+	}
+}
+
+func StartServer() {}
+
+// main entry point
 func main() {
 	configs := config.GetConfig()
 	connection := instance.GetConnection()
@@ -25,13 +41,12 @@ func main() {
 			logger.PANIC("Error on migrations", err)
 		}
 	}
-	logger.PANIC("", checkTables(connection))
+	logger.PANIC("", CheckTables(connection))
 	port := fmt.Sprintf(":%v", configs.Port)
 	router := routes.NewRouter().SetRouters(repository)
 	logger.INFO("service is running on port", port)
 	server := http.ListenAndServe(port, router)
 	log.Fatal(server)
-
 }
 
 func Migrate(connection *dynamodb.DynamoDB) []error {
@@ -40,7 +55,7 @@ func Migrate(connection *dynamodb.DynamoDB) []error {
 	return errors
 }
 
-func checkTables(connection *dynamodb.DynamoDB) error {
+func CheckTables(connection *dynamodb.DynamoDB) error {
 	// response, err := conenction.ListTables()
 	return nil
 }
