@@ -7,9 +7,7 @@ import (
 	pb "account/generated"
 	"account/server"
 	"context"
-	"flag"
 	"fmt"
-	"log"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -22,20 +20,22 @@ var server_adddress = ""
 
 func main() {
 
-	productionMode := flag.Bool("production", false, "enable production mode")
-	flag.Parse()
-	cfgName := func() string {
-		if *productionMode {
-			return "prod"
-		}
-		return "dev"
-	}()
-	cfg, err := config.LoadConfig(cfgName)
-	if err != nil {
-		log.Fatal(err)
+	cfg := config.Config{
+		ServiceName:     "account",
+		ServerAddress:   "0.0.0.0:8082",
+		MongoHost:       "mongodb",
+		MongoPort:       "27017",
+		DatabaseName:    "account",
+		CollectionItems: "items",
+		ApiKey:          "your-api-key",
 	}
 
-	db := db.Connect(context.Background(), fmt.Sprintf("mongodb://%s:%s", mongo_host, mongo_port))
+	// cfg, err := config.LoadConfig()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	db := db.Connect(context.Background(), fmt.Sprintf("mongodb://%s:%s", cfg.MongoHost, cfg.MongoPort))
 	defer db.Disconnect()
 
 	accountRepository := account.NewRepository(db.Collection("HOST NAME", "HOST PORT"))
