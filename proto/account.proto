@@ -1,2 +1,43 @@
 syntax = "proto3";
 package account;
+
+option go_package = ".";
+
+enum Role {
+  ROOT = 0;
+  CREATOR = 1;
+  CUSTOMER = 2;
+}
+
+enum Status {
+  PENDING_CONFIRMATION = 0;
+  ACTIVE = 1;
+  SUSPENDED = 2;
+}
+
+message Account {
+  string id = 1;
+  string email = 2;
+  Role role = 3;
+  Status status = 4;
+  int64 created_at = 5;
+}
+
+message CreateAccountRequest {
+  string email = 1;
+  Role role = 2;
+}
+
+message CreateAccountResponse {
+  string id = 1;
+  Status status = 2;
+}
+
+message GetAccountByIdRequest { string id = 1; }
+
+message GetAccountByIdResponse { Account account = 1; }
+
+service AccountService {
+  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
+  rpc GetAccountById(GetAccountByIdRequest) returns (GetAccountByIdResponse);
+}
