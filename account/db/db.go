@@ -39,5 +39,8 @@ func (d *DB) Disconnect() {
 	}
 
 	fmt.Printf("Disconnected from the database: %s\n", d.address)
+}
 
+func (d *DB) Collection(dbName string, collectionName string) *mongo.Collection {
+	return d.client.Database(dbName).Collection(collectionName)
 }
