@@ -1,3 +1,7 @@
+/*
+*	implement grpc services
+* use the mapper and the usecases to bind
+ */
 package core
 
 import (
