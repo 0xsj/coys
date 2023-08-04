@@ -1,0 +1,7 @@
+ServiceName: MyService
+ServerAddress: localhost:8080
+MongoHost: mongodb://localhost
+MongoPort: "27017"
+DatabaseName: mydb
+CollectionItems: items
+ApiKey: myapikey
