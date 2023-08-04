@@ -8,4 +8,7 @@ message SignInByEmailRequest { string email = 1; }
 
 message ConfirmSignInByEmailResponse { int64 retry_at = 1; }
 
-service AuthenticationService {}
+service AuthenticationService {
+  rpc SignInByEmail(SignInByEmailRequest)
+      returns (ConfirmSignInByEmailResponse);
+}

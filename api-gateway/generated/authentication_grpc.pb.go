@@ -7,7 +7,10 @@
 package __
 
 import (
+	context "context"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -15,12 +18,15 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-const ()
+const (
+	AuthenticationService_SignInByEmail_FullMethodName = "/authentication.AuthenticationService/SignInByEmail"
+)
 
 // AuthenticationServiceClient is the client API for AuthenticationService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthenticationServiceClient interface {
+	SignInByEmail(ctx context.Context, in *SignInByEmailRequest, opts ...grpc.CallOption) (*ConfirmSignInByEmailResponse, error)
 }
 
 type authenticationServiceClient struct {
@@ -31,10 +37,20 @@ func NewAuthenticationServiceClient(cc grpc.ClientConnInterface) AuthenticationS
 	return &authenticationServiceClient{cc}
 }
 
+func (c *authenticationServiceClient) SignInByEmail(ctx context.Context, in *SignInByEmailRequest, opts ...grpc.CallOption) (*ConfirmSignInByEmailResponse, error) {
+	out := new(ConfirmSignInByEmailResponse)
+	err := c.cc.Invoke(ctx, AuthenticationService_SignInByEmail_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticationServiceServer is the server API for AuthenticationService service.
 // All implementations must embed UnimplementedAuthenticationServiceServer
 // for forward compatibility
 type AuthenticationServiceServer interface {
+	SignInByEmail(context.Context, *SignInByEmailRequest) (*ConfirmSignInByEmailResponse, error)
 	mustEmbedUnimplementedAuthenticationServiceServer()
 }
 
@@ -42,6 +58,9 @@ type AuthenticationServiceServer interface {
 type UnimplementedAuthenticationServiceServer struct {
 }
 
+func (UnimplementedAuthenticationServiceServer) SignInByEmail(context.Context, *SignInByEmailRequest) (*ConfirmSignInByEmailResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SignInByEmail not implemented")
+}
 func (UnimplementedAuthenticationServiceServer) mustEmbedUnimplementedAuthenticationServiceServer() {}
 
 // UnsafeAuthenticationServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -55,13 +74,36 @@ func RegisterAuthenticationServiceServer(s grpc.ServiceRegistrar, srv Authentica
 	s.RegisterService(&AuthenticationService_ServiceDesc, srv)
 }
 
+func _AuthenticationService_SignInByEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SignInByEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServiceServer).SignInByEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthenticationService_SignInByEmail_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServiceServer).SignInByEmail(ctx, req.(*SignInByEmailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthenticationService_ServiceDesc is the grpc.ServiceDesc for AuthenticationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var AuthenticationService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "authentication.AuthenticationService",
 	HandlerType: (*AuthenticationServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "authentication.proto",
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "SignInByEmail",
+			Handler:    _AuthenticationService_SignInByEmail_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "authentication.proto",
 }
