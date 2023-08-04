@@ -1,7 +1,7 @@
 #!/bin/bash
 
 tsServices=("profile")
-goServices=("authentication" )
+goServices=("authentication", "account" )
 authInternalServices=("account")
 gatewayServices=("authentication")
 
