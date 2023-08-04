@@ -14,16 +14,13 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-var mongo_host = ""
-var mongo_port = ""
-var server_adddress = ""
-
 func main() {
 
+	fmt.Println("init server")
 	cfg := config.Config{
 		ServiceName:     "account",
 		ServerAddress:   "0.0.0.0:8082",
-		MongoHost:       "mongodb",
+		MongoHost:       "localhost",
 		MongoPort:       "27017",
 		DatabaseName:    "account",
 		CollectionItems: "items",
@@ -48,7 +45,7 @@ func main() {
 		return nil
 	})
 
-	grpcServer := server.Server{Address: server_adddress}
+	grpcServer := server.Server{Address: cfg.ServerAddress}
 	grpcServer.Launch(func(server *grpc.Server) {
 		pb.RegisterAccountServiceServer(server, accountService)
 	}, authInterceptor)
