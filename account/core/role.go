@@ -1,3 +1,6 @@
+/*
+*	custom type role
+ */
 package core
 
 type Role int

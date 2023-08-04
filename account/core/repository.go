@@ -1,3 +1,6 @@
+/**
+*	facilitates interaction with mongo
+ */
 package core
 
 import (
