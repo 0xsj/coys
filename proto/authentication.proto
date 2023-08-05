@@ -1,47 +1,21 @@
 syntax = "proto3";
+
 package authentication;
 
 option go_package = ".";
 
-enum Role {
-  ADMIN = 0;
-  USER = 1;
-  CREATOR = 2;
+message SignInByPhoneNumberRequest { string phone_number = 1; }
+
+message SignInByPhoneNumberResponse { int64 retry_at = 1; }
+
+message ConfirmPhoneNumberRequest {
+  string phone_number = 1;
+  string confirmation_code = 2;
 }
 
-message Account {
-  string id = 1;
-  string email = 2;
-  string password_hash = 3;
-  Role role = 4;
-  uint64 created_at = 5;
-  uint64 updated_at = 6;
-}
-
-message Token {
-  string account_id = 1;
-  Role role = 2;
-}
-
-message SignUpRequest {
-  string email = 1;
-  string password = 2;
-  Role role = 3;
-}
-
-message SignUpResponse {
-  string access_token = 2;
-  string refresh_token = 3;
-}
-
-message SignInRequest {
-  string email = 1;
-  string password = 2;
-}
-
-message SignInResponse {
-  string access_token = 2;
-  string refresh_token = 3;
+message ConfirmPhoneNumberResponse {
+  string access_token = 1;
+  string refresh_token = 2;
 }
 
 message SignOutRequest {
@@ -49,35 +23,28 @@ message SignOutRequest {
   string refresh_token = 2;
 }
 
-message SignOutResponse { bool is_success = 1; }
+message SignOutResponse {}
 
-message ChangePasswordRequest {
-  string access_token = 1;
-  string refresh_token = 2;
-  string new_password = 3;
-}
+message VerifyAccessRequest { string access_token = 1; }
 
-message ChangePasswordResponse {
+message VerifyAccessResponse { string id = 1; }
+
+message RefreshTokenRequest {
   string access_token = 1;
   string refresh_token = 2;
 }
-
-message RefreshTokenRequest { string refresh_token = 1; }
 
 message RefreshTokenResponse {
   string access_token = 1;
   string refresh_token = 2;
 }
 
-message ValidateTokenRequest { string access_token = 1; }
-
-message ValidateTokenResponse { string payload = 1; }
-
 service AuthenticationService {
-  rpc SignUp(SignUpRequest) returns (SignUpResponse);
-  rpc SignIn(SignInRequest) returns (SignInResponse);
+  rpc SignInByPhoneNumber(SignInByPhoneNumberRequest)
+      returns (SignInByPhoneNumberResponse);
+  rpc ConfirmPhoneNumber(ConfirmPhoneNumberRequest)
+      returns (ConfirmPhoneNumberResponse);
   rpc SignOut(SignOutRequest) returns (SignOutResponse);
-  rpc ChangePassword(ChangePasswordRequest) returns (ChangePasswordResponse);
   rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
-  rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+  rpc VerifyAccess(VerifyAccessRequest) returns (VerifyAccessResponse);
 }

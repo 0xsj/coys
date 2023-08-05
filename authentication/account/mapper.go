@@ -1,9 +1,6 @@
-/*
-*	mapping between data and proto buffer
- */
-package core
+package account
 
-import pb "account/generated"
+import pb "authentication/generated"
 
 type Mapper interface {
 	MessageToEntity(message *pb.Account) *Account

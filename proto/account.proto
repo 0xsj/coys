@@ -5,58 +5,74 @@ package account;
 option go_package = ".";
 
 enum Role {
-  ADMIN = 0;
-  USER = 1;
-  CREATOR = 2;
+  ROOT = 0;
+  STAFF = 1;
+  COURIER = 2;
+  CUSTOMER = 3;
+}
+
+enum Status {
+  PENDING_CONFIRMATION = 0;
+  ACTIVE = 1;
+  SUSPENDED = 2;
 }
 
 message Account {
   string id = 1;
-  string email = 2;
-  string password_hash = 3;
-  string password_salt = 4;
-  Role role = 5;
-  uint64 created_at = 6;
-  uint64 updated_at = 7;
+  string phone_number = 2;
+  Role role = 3;
+  Status status = 4;
+  int64 created_at = 5;
 }
+
+message CreateAccountRequest {
+  string phone_number = 1;
+  Role role = 2;
+}
+
+message CreateAccountResponse { string id = 1; }
 
 message GetAccountByIdRequest { string id = 1; }
 
 message GetAccountByIdResponse { Account account = 1; }
 
-message GetAccountByCredentialsRequest {
-  string email = 1;
-  string password = 2;
+message GetAccountByPhoneNumberRequest { string phone_number = 1; }
+
+message GetAccountByPhoneNumberResponse { Account account = 1; }
+
+message GetAccountsByRoleRequest {
+  Role role = 1;
+  int64 skip = 2;
+  int64 limit = 3;
 }
 
-message GetAccountByCredentialsResponse { Account account = 1; }
+message GetAccountsByRoleResponse { repeated Account accounts = 1; }
 
-message CreateAccountRequest {
-  string email = 1;
-  string password = 2;
-  Role role = 3;
+message GetAccountsByStatusRequest {
+  Status status = 1;
+  int64 skip = 2;
+  int64 limit = 3;
 }
 
-message CreateAccountResponse { string id = 1; }
+message GetAccountsByStatusResponse { repeated Account accounts = 1; }
 
-message UpdateAccountRequest {
-  string id = 1;
-  optional string email = 2;
-  optional string password = 3;
-  optional Role role = 4;
-}
+message UpdateAccountRequest { Account account = 1; }
 
 message UpdateAccountResponse { Account account = 1; }
 
-message DeleteAccountRequest { string id = 1; }
+message RemoveAccountRequest { string id = 1; }
 
-message DeleteAccountResponse { string id = 1; }
+message RemoveAccountResponse { string id = 1; }
 
 service AccountService {
-  rpc GetAccountById(GetAccountByIdRequest) returns (GetAccountByIdResponse);
-  rpc GetAccountByCredentials(GetAccountByCredentialsRequest)
-      returns (GetAccountByCredentialsResponse);
   rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
+  rpc GetAccountById(GetAccountByIdRequest) returns (GetAccountByIdResponse);
+  rpc GetAccountByPhoneNumber(GetAccountByPhoneNumberRequest)
+      returns (GetAccountByPhoneNumberResponse);
+  rpc GetAccountsByRole(GetAccountsByRoleRequest)
+      returns (GetAccountsByRoleResponse);
+  rpc GetAccountsByStatus(GetAccountsByStatusRequest)
+      returns (GetAccountsByStatusResponse);
   rpc UpdateAccount(UpdateAccountRequest) returns (UpdateAccountResponse);
-  rpc DeleteAccount(DeleteAccountRequest) returns (DeleteAccountResponse);
+  rpc RemoveAccount(RemoveAccountRequest) returns (RemoveAccountResponse);
 }

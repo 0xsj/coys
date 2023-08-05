@@ -1,4 +1,4 @@
-package core
+package account
 
 type Role int
 

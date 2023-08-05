@@ -1,8 +1,8 @@
 #!/bin/bash
 
 tsServices=()
-goServices=("authentication")
-authInternalServices=("account")
+goServices=("authentication" "account")
+authInternalServices=("account" "token" "confirmation")
 gatewayServices=("authentication")
 
 function cleanup() {
