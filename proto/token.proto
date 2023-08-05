@@ -19,8 +19,15 @@ message RevokeTokenRequest { string token = 1; }
 
 message RevokeTokenResponse { string token = 1; }
 
+// JWT
+message GenerateJWTRequest {
+  string user_id = 2;
+  repeated string roles = 3;
+}
+
+message GenerateJWTResponse { string token = 1; }
 service TokenService {
   rpc GenerateToken(GenerateTokenRequest) returns (GenerateTokenResponse);
-  rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenResponse);
-  rpc RevokeToken(RevokeTokenRequest) returns (RevokeTokenResponse);
+  // rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenResponse);
+  // rpc RevokeToken(RevokeTokenRequest) returns (RevokeTokenResponse);
 }

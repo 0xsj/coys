@@ -4,6 +4,7 @@ package authentication;
 
 option go_package = ".";
 
+// Sign in
 message SignInByPhoneNumberRequest { string phone_number = 1; }
 
 message SignInByPhoneNumberResponse { int64 retry_at = 1; }
@@ -42,9 +43,10 @@ message RefreshTokenResponse {
 service AuthenticationService {
   rpc SignInByPhoneNumber(SignInByPhoneNumberRequest)
       returns (SignInByPhoneNumberResponse);
-  rpc ConfirmPhoneNumber(ConfirmPhoneNumberRequest)
-      returns (ConfirmPhoneNumberResponse);
   rpc SignOut(SignOutRequest) returns (SignOutResponse);
-  rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
-  rpc VerifyAccess(VerifyAccessRequest) returns (VerifyAccessResponse);
+
+  // rpc ConfirmPhoneNumber(ConfirmPhoneNumberRequest)
+  //     returns (ConfirmPhoneNumberResponse);
+  // rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+  // rpc VerifyAccess(VerifyAccessRequest) returns (VerifyAccessResponse);
 }
