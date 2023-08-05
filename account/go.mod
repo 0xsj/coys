@@ -24,6 +24,7 @@ require (
 	golang.org/x/crypto v0.9.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
 	google.golang.org/genproto v0.0.0-20230526161137-0005af68ea54 // indirect
+	google.golang.org/grpc/cmd/protoc-gen-go-grpc v1.3.0 // indirect
 )
 
 require (

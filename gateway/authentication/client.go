@@ -1,19 +1,19 @@
 package authentication
 
-// import (
-// 	// pb "api-gateway/generated"
-// 	pb "api-gateway/generated"
-// 	"log"
+import (
+	// pb "api-gateway/generated"
+	pb "gateway/generated"
+	"log"
 
-// 	"google.golang.org/grpc"
-// )
+	"google.golang.org/grpc"
+)
 
-// func NewClient(address string) pb.AuthenticationServiceClient {
-// 	connection, err := grpc.Dial(address)
+func NewClient(address string) pb.AuthenticationServiceClient {
+	connection, err := grpc.Dial(address)
 
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	return pb.NewAuthenticationServiceClient(connection)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return pb.NewAuthenticationServiceClient(connection)
 
-// }
+}
