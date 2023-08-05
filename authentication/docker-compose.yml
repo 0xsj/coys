@@ -1,9 +1,0 @@
-version: '3'
-services:
-  authentication:
-    build: .
-    volumes:
-      - ./:/data
-    restart: on-failure
-    ports:
-      - '8080:8080'
