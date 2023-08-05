@@ -4,11 +4,10 @@ type Role int
 
 const (
 	Root Role = iota
-	Staff
-	Courier
+	Creator
 	Customer
 )
 
 func (r Role) String() string {
-	return [...]string{"ROOT", "STAFF", "COURIER", "CUSTOMER"}[r]
+	return [...]string{"ROOT", "CREATOR", "CUSTOMER"}[r]
 }

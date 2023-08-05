@@ -6,9 +6,8 @@ option go_package = ".";
 
 enum Role {
   ROOT = 0;
-  STAFF = 1;
-  COURIER = 2;
-  CUSTOMER = 3;
+  CREATOR = 1;
+  CUSTOMER = 2;
 }
 
 enum Status {
