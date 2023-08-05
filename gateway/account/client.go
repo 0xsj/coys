@@ -1,7 +1,7 @@
 package account
 
 import (
-	pb "api-gateway/generated"
+	pb "gateway/generated"
 	"log"
 
 	"google.golang.org/grpc"

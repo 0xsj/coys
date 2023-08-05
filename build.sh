@@ -1,9 +1,9 @@
 #!/bin/bash
 
-tsServices=("profile")
-goServices=("authentication" "account" )
-authInternalServices=("account")
-gatewayServices=("authentication" "account")
+tsServices=()
+goServices=("authentication")
+authInternalServices=("account" "token")
+gatewayServices=("authentication")
 
 function cleanup() {
   folderPath="$1/generated"
@@ -48,10 +48,10 @@ for service in "${goServices[@]}"; do
 done
 
 # generate code for gateway
-cleanup api-gateway
+cleanup gateway
 for service in "${gatewayServices[@]}"; do
-  generateGo api-gateway "$service"
-  echo "generated proto for api-gateway: $service"
+  generateGo gateway "$service"
+  echo "generated proto for gateway: $service"
 done
 
 sleep .5
