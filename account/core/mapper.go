@@ -18,20 +18,20 @@ func NewMapper() Mapper {
 
 func (m *MapperImpl) MessageToEntity(message *pb.Account) *Account {
 	return &Account{
-		Id:        message.GetId(),
-		Email:     message.GetEmail(),
-		Role:      Role(message.GetRole()),
-		Status:    Status(message.GetStatus()),
-		CreatedAt: message.GetCreatedAt(),
+		Id:    message.GetId(),
+		Email: message.GetEmail(),
+		Role:  Role(message.GetRole()),
+		// Status:    Status(message.GetStatus()),
+		// CreatedAt: message.GetCreatedAt(),
 	}
 }
 
 func (m *MapperImpl) EntityToMessage(entity *Account) *pb.Account {
 	return &pb.Account{
-		Id:        entity.Id,
-		Email:     entity.Email,
-		Role:      pb.Role(entity.Role),
-		Status:    pb.Status(entity.Status),
-		CreatedAt: entity.CreatedAt,
+		Id:    entity.Id,
+		Email: entity.Email,
+		Role:  pb.Role(entity.Role),
+		// Status:    pb.Status(entity.Status),
+		// CreatedAt: entity.CreatedAt,
 	}
 }

@@ -2,7 +2,7 @@
 
 tsServices=()
 goServices=("authentication")
-authInternalServices=("account" "token")
+authInternalServices=("account")
 gatewayServices=("authentication")
 
 function cleanup() {
@@ -14,24 +14,24 @@ function cleanup() {
   mkdir -p "$folderPath"
 }
 
-function generateTS() {
-  if [ -d "$1" ]; then
-    cd "$1" || return
-    npm run protoc
-    cd ..
-  fi
-}
+# function generateTS() {
+#   if [ -d "$1" ]; then
+#     cd "$1" || return
+#     npm run protoc
+#     cd ..
+#   fi
+# }
 
 function generateGo() {
   path="$1/generated"
   protoc --go_out="$path" --go-grpc_out="$path" --proto_path=proto "$2.proto"
 }
 
-# generate code for TS services
-for service in "${tsServices[@]}"; do
-  generateTS "$service" "$service"
-  echo "generated proto for TS service: $service"
-done
+# # generate code for TS services
+# for service in "${tsServices[@]}"; do
+#   generateTS "$service" "$service"
+#   echo "generated proto for TS service: $service"
+# done
 
 # generate code for Go services
 for service in "${goServices[@]}"; do
