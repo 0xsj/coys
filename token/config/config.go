@@ -18,8 +18,8 @@ type Config struct {
 func LoadConfig() (config Config, err error) {
 	config = Config{
 		ServiceName:   "token",
-		ServerAddress: "0.0.0.0:8081",
-		RedisHostname: "redis",
+		ServerAddress: "127.0.0.1:8081",
+		RedisHostname: "localhost",
 		RedisPort:     "6379",
 		APIKey:        "SOME API KEY",
 		SecretKey:     "SOME SECRET",
@@ -28,21 +28,16 @@ func LoadConfig() (config Config, err error) {
 	return config, nil
 }
 
-// compeltely useelss for some reason
-func LoadViperConfig() (config Config, err error) {
-
-	viper.SetDefault("SERVICE_NAME", "token")
-	viper.SetDefault("SERVER_ADDRESS", "0.0.0.0:8081")
-	viper.SetDefault("REDIS_HOSTNAME", "redis")
-	viper.SetDefault("REDIS_PORT", "6379")
-	viper.SetDefault("API_KEY", "SOME API KEY")
-	viper.SetDefault("SECRET_KEY", "SOME SECRET")
-
-	if err := viper.ReadInConfig(); err != nil {
+// compeltely useless for some reason
+func LoadViperConfig(name string) (config Config, err error) {
+	viper.AddConfigPath(".")
+	viper.AddConfigPath("./config")
+	viper.SetConfigType("env")
+	viper.SetConfigName(name)
+	if err = viper.ReadInConfig(); err != nil {
 		log.Fatal(err)
 	}
-
-	if err := viper.Unmarshal(&config); err != nil {
+	if err = viper.Unmarshal(&config); err != nil {
 		log.Fatal(err)
 	}
 	return
