@@ -4,5 +4,4 @@ use (
 	./account
 	./gateway
 	./token
-	./transcribe
 )
