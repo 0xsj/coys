@@ -10,10 +10,10 @@ type UseCaseImpl struct {
 	repository Repository
 }
 
-func (u *UseCaseImpl) GenerateTokenPair(ctx context.Context, payload string) (*Pair, error) {
-	return u.repository.GenerateTokenPair(ctx, payload)
-}
-
 func NewUseCase(repository Repository) UseCase {
 	return &UseCaseImpl{repository: repository}
+}
+
+func (u *UseCaseImpl) GenerateTokenPair(ctx context.Context, payload string) (*Pair, error) {
+	return u.repository.GenerateTokenPair(ctx, payload)
 }
