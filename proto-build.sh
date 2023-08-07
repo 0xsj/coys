@@ -1,9 +1,9 @@
 #!/bin/bash
 
 tsServices=()
-goServices=("authentication")
+goServices=("authentication" "token")
 authInternalServices=("account" "confirmation" "token")
-gatewayServices=("authentication")
+gatewayServices=("authentication" "token")
 
 function cleanup() {
   folderPath="$1/generated"
