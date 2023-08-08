@@ -16,7 +16,7 @@ import (
 
 type Repository interface {
 	CreateAccount(ctx context.Context, phoneNumber string, role Role) (*string, error)
-	// GetAccountById()
+	GetAccountById(ctx context.Context, id string) (*Account, error)
 }
 
 type RepositoryImpl struct {
