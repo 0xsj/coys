@@ -1,6 +1,13 @@
 package account
 
-type ServiceImpl struct{}
+import (
+	pb "account/generated"
+)
+
+type ServiceImpl struct {
+	pb.UnimplementedAccountServiceServer
+	UseCase UseCase
+}
 
 func NewService() {}
 

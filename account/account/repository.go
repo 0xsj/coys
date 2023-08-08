@@ -9,6 +9,7 @@ import (
 
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -42,4 +43,13 @@ func (r *RepositoryImpl) CreateAccount(ctx context.Context, phoneNumber string, 
 	return &id, nil
 }
 
-// func GetAccountById() {}
+// Get Account, takes the context and the string id
+func (r *RepositoryImpl) GetAccountById(ctx context.Context, id string) (*Account, error) {
+	var result *Account
+	if err := r.collection.FindOne(ctx, bson.M{"_id": id}).Decode(&result); err != nil {
+		if err != mongo.ErrNoDocuments {
+			return nil, err
+		}
+	}
+	return result, nil
+}

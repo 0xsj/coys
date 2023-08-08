@@ -5,12 +5,16 @@ Responsible for handling our core logic
 
 package account
 
-type UseCase interface{}
+type UseCase interface {
+	CreateAccount()
+}
 
-type UseCaseImpl struct{}
+type UseCaseImpl struct {
+	repository Repository
+}
 
 func NewUseCase() {}
 
-func CreateAccount() {}
+func (u *UseCaseImpl) CreateAccount() {}
 
-func GetAccountById() {}
+// func GetAccountById() {}
