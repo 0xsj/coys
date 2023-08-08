@@ -44,7 +44,7 @@ func Connect(ctx context.Context, address string) *Database {
 - if we have an err during disconnecting, we throw a fatal error
 - else, we return a auccess message with the db address
 */
-func Disconnect(d *Database) {
+func (d *Database) Disconenct() {
 	if err := d.client.Disconnect(d.context); err != nil {
 		log.Fatal("Could not disconnect from the database:", err)
 	}

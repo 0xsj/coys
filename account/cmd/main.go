@@ -2,6 +2,8 @@ package main
 
 import (
 	"account/config"
+	"account/database"
+	"context"
 	"fmt"
 	"log"
 )
@@ -12,5 +14,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(cfg.ApiKey)
+	db := database.Connect(context.Background(), fmt.Sprintf("mongodb://%s:%s", cfg.MongoHostname, cfg.MongoPort))
+	defer db.Disconenct()
 }
