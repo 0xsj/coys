@@ -1,3 +1,8 @@
+/*
+Responsible for handling our core logic
+- encapsulating application behavior here
+*/
+
 package account
 
 type UseCase interface{}
