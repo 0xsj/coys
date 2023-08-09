@@ -22,4 +22,5 @@ func main() {
 	grpcServer.Launch(func(server *grpc.Server) {
 		pb.RegisterTokenServiceServer(server, tokenService)
 	})
+
 }

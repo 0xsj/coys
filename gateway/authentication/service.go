@@ -22,6 +22,6 @@ func NewService(address string) pb.AuthenticationServiceServer {
 	return &ServiceImpl{Client: pb.NewAuthenticationServiceClient(connection)}
 }
 
-func (s *ServiceImpl) GetToken(ctx context.Context, request *pb.GenerateTokenRequest) {
-	// return s.Client.GetToken(ctx, request)
+func (s *ServiceImpl) SignInByPhoneNumber(ctx context.Context, request *pb.SignInByPhoneNumberRequest) (*pb.SignInByPhoneNumberResponse, error) {
+	return s.Client.SignInByPhoneNumber(ctx, request)
 }
