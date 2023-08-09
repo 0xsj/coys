@@ -37,4 +37,19 @@ func (service *ServiceImpl) CreateAccount(ctx context.Context, request *pb.Creat
 	return &pb.CreateAccountResponse{Id: *id}, nil
 }
 
-func GetAccountById() {}
+func (s *ServiceImpl) GetAccountById(ctx context.Context, request *pb.GetAccountByIdRequest) (*pb.GetAccountByIdResponse, error) {
+	request_id := request.GetId()
+	if request_id == "" {
+		return nil, status.Error(codes.InvalidArgument, "Value cannot be empty")
+	}
+	account, err := s.useCase.GetAccountById(ctx, request_id)
+	if err != nil {
+		return nil, err
+	}
+
+	if account != nil {
+		return &pb.GetAccountByIdResponse{Account: s.mapper.EntityToMessage(account)}, nil
+	}
+
+	return nil, status.Error(codes.NotFound, codes.NotFound.String())
+}

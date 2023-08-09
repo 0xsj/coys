@@ -11,6 +11,7 @@ import "context"
 // specifies methods that represents use cases the application needs to support
 type UseCase interface {
 	CreateAccount(ctx context.Context, phoneNumber string, role Role) (*string, error)
+	GetAccountById(ctx context.Context, id string) (*Account, error)
 }
 
 // implementation of the UseCase interface.
