@@ -1,6 +1,7 @@
 package main
 
 import (
+	"account/account"
 	"account/config"
 	"account/database"
 	"context"
@@ -16,4 +17,8 @@ func main() {
 
 	db := database.Connect(context.Background(), fmt.Sprintf("mongodb://%s:%s", cfg.MongoHostname, cfg.MongoPort))
 	defer db.Disconenct()
+
+	accountRepository := account.NewRepository(db.Collection(cfg.DatabaseName, cfg.CollectionItems)
+	accountUseCase := account.NewUseCase(accountRepository)
+
 }
