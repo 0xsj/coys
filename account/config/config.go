@@ -13,7 +13,7 @@ type Config struct {
 func LoadConfig() (config Config, err error) {
 	config = Config{
 		ServiceName:     "account",
-		ServerAddress:   "127.0.0.1:80802",
+		ServerAddress:   "127.0.0.1:8082",
 		MongoHostname:   "localhost",
 		MongoPort:       "6379",
 		DatabaseName:    "account",
