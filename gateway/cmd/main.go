@@ -1,6 +1,7 @@
 package main
 
 import (
+	"gateway/authentication"
 	"gateway/config"
 	pb "gateway/generated"
 	"gateway/server"
@@ -9,7 +10,6 @@ import (
 	"net/http"
 
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 
 	"github.com/gorilla/mux"
 )
@@ -20,13 +20,25 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// Launch the gRPC server in a goroutine
 	go func() {
+		// authenticationClient := authentication.NewClient(cfg.AuthenticationAddress)
+
+		// authInterceptor := server.NewInterceptor("Authorization", func(ctx context.Context, info *grpc.UnaryServerInfo, header string) error {
+		// 	if _, ok := info.Server.(authentication.ServiceImpl); ok {
+		// 		return nil
+		// 	}
+		// 	return nil
+		// })
+
+		authenticationService := authentication.NewService(cfg.AuthenticationAddress)
+
 		grpcServer := server.Server{Address: cfg.ServerAddress}
 		tokenService := token.NewService(cfg.TokenAddress)
 		grpcServer.Launch(func(server *grpc.Server) {
+			pb.RegisterAuthenticationServiceServer(server, authenticationService)
+		})
+		grpcServer.Launch(func(server *grpc.Server) {
 			pb.RegisterTokenServiceServer(server, tokenService)
-			reflection.Register(server)
 		})
 	}()
 
