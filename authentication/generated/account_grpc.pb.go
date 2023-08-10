@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AccountService_CreateAccount_FullMethodName  = "/account.AccountService/CreateAccount"
-	AccountService_GetAccountById_FullMethodName = "/account.AccountService/GetAccountById"
+	AccountService_CreateAccount_FullMethodName           = "/account.AccountService/CreateAccount"
+	AccountService_GetAccountById_FullMethodName          = "/account.AccountService/GetAccountById"
+	AccountService_GetAccountByPhoneNumber_FullMethodName = "/account.AccountService/GetAccountByPhoneNumber"
 )
 
 // AccountServiceClient is the client API for AccountService service.
@@ -29,6 +30,7 @@ const (
 type AccountServiceClient interface {
 	CreateAccount(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*CreateAccountResponse, error)
 	GetAccountById(ctx context.Context, in *GetAccountByIdRequest, opts ...grpc.CallOption) (*GetAccountByIdResponse, error)
+	GetAccountByPhoneNumber(ctx context.Context, in *GetAccountByPhoneNumberRequest, opts ...grpc.CallOption) (*GetAccountByPhoneNumberResponse, error)
 }
 
 type accountServiceClient struct {
@@ -57,12 +59,22 @@ func (c *accountServiceClient) GetAccountById(ctx context.Context, in *GetAccoun
 	return out, nil
 }
 
+func (c *accountServiceClient) GetAccountByPhoneNumber(ctx context.Context, in *GetAccountByPhoneNumberRequest, opts ...grpc.CallOption) (*GetAccountByPhoneNumberResponse, error) {
+	out := new(GetAccountByPhoneNumberResponse)
+	err := c.cc.Invoke(ctx, AccountService_GetAccountByPhoneNumber_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServiceServer is the server API for AccountService service.
 // All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility
 type AccountServiceServer interface {
 	CreateAccount(context.Context, *CreateAccountRequest) (*CreateAccountResponse, error)
 	GetAccountById(context.Context, *GetAccountByIdRequest) (*GetAccountByIdResponse, error)
+	GetAccountByPhoneNumber(context.Context, *GetAccountByPhoneNumberRequest) (*GetAccountByPhoneNumberResponse, error)
 	mustEmbedUnimplementedAccountServiceServer()
 }
 
@@ -75,6 +87,9 @@ func (UnimplementedAccountServiceServer) CreateAccount(context.Context, *CreateA
 }
 func (UnimplementedAccountServiceServer) GetAccountById(context.Context, *GetAccountByIdRequest) (*GetAccountByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccountById not implemented")
+}
+func (UnimplementedAccountServiceServer) GetAccountByPhoneNumber(context.Context, *GetAccountByPhoneNumberRequest) (*GetAccountByPhoneNumberResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAccountByPhoneNumber not implemented")
 }
 func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 
@@ -125,6 +140,24 @@ func _AccountService_GetAccountById_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AccountService_GetAccountByPhoneNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAccountByPhoneNumberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServiceServer).GetAccountByPhoneNumber(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AccountService_GetAccountByPhoneNumber_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServiceServer).GetAccountByPhoneNumber(ctx, req.(*GetAccountByPhoneNumberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -139,6 +172,10 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAccountById",
 			Handler:    _AccountService_GetAccountById_Handler,
+		},
+		{
+			MethodName: "GetAccountByPhoneNumber",
+			Handler:    _AccountService_GetAccountByPhoneNumber_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -8,6 +8,7 @@ import (
 type Repository interface {
 	CreateAccount(ctx context.Context, phoneNumber string, role Role) (*string, error)
 	GetAccountById(ctx context.Context, id string) (*Account, error)
+	GetAccountByPhoneNumber(ctx context.Context, phoneNumber string) (*Account, error)
 }
 
 type RepositoryImpl struct {
@@ -28,6 +29,14 @@ func (r *RepositoryImpl) CreateAccount(ctx context.Context, phoneNumber string, 
 }
 func (r *RepositoryImpl) GetAccountById(ctx context.Context, id string) (*Account, error) {
 	response, err := r.client.GetAccountById(ctx, &pb.GetAccountByIdRequest{Id: id})
+	if err != nil {
+		return nil, err
+	}
+	return r.mapper.MessageToEntity(response.GetAccount()), nil
+}
+
+func (r *RepositoryImpl) GetAccountByPhoneNumber(ctx context.Context, phoneNumber string) (*Account, error) {
+	response, err := r.client.GetAccountByPhoneNumber(ctx, &pb.GetAccountByPhoneNumberRequest{PhoneNumber: phoneNumber})
 	if err != nil {
 		return nil, err
 	}

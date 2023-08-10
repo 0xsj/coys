@@ -66,8 +66,8 @@ message RemoveAccountResponse { string id = 1; }
 service AccountService {
   rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
   rpc GetAccountById(GetAccountByIdRequest) returns (GetAccountByIdResponse);
-  // rpc GetAccountByPhoneNumber(GetAccountByPhoneNumberRequest)
-  //     returns (GetAccountByPhoneNumberResponse);
+  rpc GetAccountByPhoneNumber(GetAccountByPhoneNumberRequest)
+      returns (GetAccountByPhoneNumberResponse);
   // rpc GetAccountsByRole(GetAccountsByRoleRequest)
   //     returns (GetAccountsByRoleResponse);
   // rpc GetAccountsByStatus(GetAccountsByStatusRequest)
