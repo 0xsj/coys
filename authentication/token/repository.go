@@ -25,3 +25,7 @@ func (r *RepositoryImpl) GenerateToken(ctx context.Context, id string) (*Pair, e
 
 	return &Pair{AccessToken: response.GetAccessToken(), RefreshToken: response.GetRefreshToken()}, err
 }
+
+// func (r * RepositoryImpl) VerifyToken() {}
+
+// func (r * RepositoryImpl) RevokeToken() {}
