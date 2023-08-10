@@ -25,3 +25,7 @@ func NewService(address string) pb.AuthenticationServiceServer {
 func (s *ServiceImpl) SignInByPhoneNumber(ctx context.Context, request *pb.SignInByPhoneNumberRequest) (*pb.SignInByPhoneNumberResponse, error) {
 	return s.Client.SignInByPhoneNumber(ctx, request)
 }
+
+func (s *ServiceImpl) VerifyAccess(ctx context.Context, request *pb.VerifyAccessRequest) (*pb.VerifyAccessResponse, error) {
+	return s.Client.VerifyAccess(ctx, request)
+}

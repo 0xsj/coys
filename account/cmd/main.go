@@ -27,7 +27,9 @@ func main() {
 	accountService := account.NewService(accountUseCase, account.NewMapper())
 
 	grpcServer := server.Server{Address: cfg.ServerAddress}
+
 	grpcServer.Launch(func(server *grpc.Server) {
 		pb.RegisterAccountServiceServer(server, accountService)
 	})
+
 }

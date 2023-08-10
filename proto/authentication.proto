@@ -48,5 +48,5 @@ service AuthenticationService {
   // rpc ConfirmPhoneNumber(ConfirmPhoneNumberRequest)
   //     returns (ConfirmPhoneNumberResponse);
   // rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
-  // rpc VerifyAccess(VerifyAccessRequest) returns (VerifyAccessResponse);
+  rpc VerifyAccess(VerifyAccessRequest) returns (VerifyAccessResponse);
 }

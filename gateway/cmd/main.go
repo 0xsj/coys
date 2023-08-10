@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"gateway/authentication"
 	"gateway/config"
 	pb "gateway/generated"
@@ -10,6 +11,8 @@ import (
 	"net/http"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"github.com/gorilla/mux"
 )
@@ -21,25 +24,32 @@ func main() {
 	}
 
 	go func() {
-		// authenticationClient := authentication.NewClient(cfg.AuthenticationAddress)
-
-		// authInterceptor := server.NewInterceptor("Authorization", func(ctx context.Context, info *grpc.UnaryServerInfo, header string) error {
-		// 	if _, ok := info.Server.(authentication.ServiceImpl); ok {
-		// 		return nil
-		// 	}
-		// 	return nil
-		// })
 
 		authenticationService := authentication.NewService(cfg.AuthenticationAddress)
+		authenticationClient := authentication.NewClient(cfg.AuthenticationAddress)
+		authInterceptor := server.NewInterceptor("Authorization", func(ctx context.Context, info *grpc.UnaryServerInfo, header string) error {
+			if _, ok := info.Server.(authentication.ServiceImpl); ok {
+				return nil
+			}
+			_, err := authenticationClient.VerifyAccess(ctx, &pb.VerifyAccessRequest{AccessToken: header})
+			if err != nil {
+				return status.Errorf(codes.Unauthenticated, "Invalid access token")
+			}
+			return nil
+		})
+
+		tokenService := token.NewService(cfg.TokenAddress)
 
 		grpcServer := server.Server{Address: cfg.ServerAddress}
-		tokenService := token.NewService(cfg.TokenAddress)
+
 		grpcServer.Launch(func(server *grpc.Server) {
 			pb.RegisterAuthenticationServiceServer(server, authenticationService)
 		})
+
 		grpcServer.Launch(func(server *grpc.Server) {
 			pb.RegisterTokenServiceServer(server, tokenService)
-		})
+		}, authInterceptor)
+
 	}()
 
 	// Create a new Gorilla Mux router

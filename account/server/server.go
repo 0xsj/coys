@@ -5,6 +5,7 @@ import (
 	"net"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 type Server struct {
@@ -14,6 +15,9 @@ type Server struct {
 func (s *Server) Launch(bind func(*grpc.Server), opts ...grpc.ServerOption) {
 	server := grpc.NewServer(opts...)
 	bind(server)
+
+	reflection.Register(server)
+
 	listener, err := net.Listen("tcp", s.Address)
 	if err != nil {
 		log.Fatal(err)
