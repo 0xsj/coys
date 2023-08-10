@@ -1,0 +1,9 @@
+version: "3"
+services:
+  gateway:
+    build: .
+    volumes:
+      - ./:/data
+    restart: on-failure
+    ports:
+      - "8000:8000"
