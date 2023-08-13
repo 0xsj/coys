@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package authentication;
+
+option go_package = ".";
+
+// Sign in
+message SignInByPhoneNumberRequest { string phone_number = 1; }
+
+message SignInByPhoneNumberResponse { int64 retry_at = 1; }
+
+message ConfirmPhoneNumberRequest {
+  string phone_number = 1;
+  string confirmation_code = 2;
+}
+
+message ConfirmPhoneNumberResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message SignOutRequest {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message SignOutResponse {}
+
+message VerifyAccessRequest { string access_token = 1; }
+
+message VerifyAccessResponse { string id = 1; }
+
+message RefreshTokenRequest {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message RefreshTokenResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+service AuthenticationService {
+  rpc SignInByPhoneNumber(SignInByPhoneNumberRequest)
+      returns (SignInByPhoneNumberResponse);
+  rpc SignOut(SignOutRequest) returns (SignOutResponse);
+
+  // rpc ConfirmPhoneNumber(ConfirmPhoneNumberRequest)
+  //     returns (ConfirmPhoneNumberResponse);
+  // rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+  // rpc VerifyAccess(VerifyAccessRequest) returns (VerifyAccessResponse);
+}
