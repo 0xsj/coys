@@ -1,8 +1,0 @@
-query SearchMoviesByCast {
-  exampleSearchMoviesByCast(input: { castName: "Tom Cruise" }) @stream {
-    name
-    year
-    rating
-    cast
-  }
-}

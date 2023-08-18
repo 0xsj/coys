@@ -1,4 +1,0 @@
-{
-  "bacaf91a97ac823027a785695458fc119f30c53ebbe4bd5f5715533fbbe46e28": "query GetMovies {\n  exampleGetMovies(input: {movie: {genre: DRAMA, year: 2015}}) {\n    result {\n      name\n      year\n      rating\n      cast\n      time {\n        seconds\n      }\n    }\n  }\n}",
-  "3eeab695405cf445b3ebe68630c572081a4276990df7aa08d1422c130b1bd6b2": "query SearchMoviesByCast {\n  exampleSearchMoviesByCast(input: {castName: \"Tom Cruise\"}) @stream {\n    name\n    year\n    rating\n    cast\n  }\n}"
-}
