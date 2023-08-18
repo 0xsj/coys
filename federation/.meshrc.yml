@@ -1,0 +1,15 @@
+sources:
+  - name: Example
+    handler:
+      grpc:
+        endpoint: localhost:50051
+        metaData:
+          someKey: "someValue"
+          connection_type: "{context.headers.connection}"
+        source: ./proto/service.proto
+    transforms:
+      - namingConvention:
+          fieldNames: camelCase
+
+documents:
+  - example-queries/*.graphql
