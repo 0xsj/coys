@@ -3,7 +3,7 @@
 tsServices=()
 goServices=("authentication" "token" "account")
 authInternalServices=("account" "confirmation" "token" "account")
-gatewayServices=("authentication" "token" "account")
+gatewayServices=("authentication" "token" "account" "hello")
 
 function cleanup() {
   folderPath="$1/generated"
