@@ -31,7 +31,7 @@ func (u *UseCaseImpl) SignInByPhoneNumber(ctx context.Context, phoneNumber strin
 	return u.confirmationRepository.SendPhoneNumberConfirmation(ctx, phoneNumber)
 }
 
-func (u *UseCaseImpl) SignOut(ctx context.Context, tokens *token.Pair) (*string, error) {
-	access, refresh := tokens.AccessToken, tokens.RefreshToken
-	return u.tokenRepository.RevokeToken(ctx, refresh)
-}
+// func (u *UseCaseImpl) SignOut(ctx context.Context, tokens *token.Pair) (*string, error) {
+// 	access, refresh := tokens.AccessToken, tokens.RefreshToken
+// 	return u.tokenRepository.
+// }
