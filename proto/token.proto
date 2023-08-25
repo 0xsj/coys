@@ -28,6 +28,6 @@ message GenerateJWTRequest {
 message GenerateJWTResponse { string token = 1; }
 service TokenService {
   rpc GenerateToken(GenerateTokenRequest) returns (GenerateTokenResponse);
-  // rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenResponse);
-  // rpc RevokeToken(RevokeTokenRequest) returns (RevokeTokenResponse);
+  rpc VerifyToken(VerifyTokenRequest) returns (VerifyTokenResponse);
+  rpc RevokeToken(RevokeTokenRequest) returns (RevokeTokenResponse);
 }

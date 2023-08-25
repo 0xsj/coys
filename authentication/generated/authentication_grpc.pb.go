@@ -21,6 +21,9 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	AuthenticationService_SignInByPhoneNumber_FullMethodName = "/authentication.AuthenticationService/SignInByPhoneNumber"
 	AuthenticationService_SignOut_FullMethodName             = "/authentication.AuthenticationService/SignOut"
+	AuthenticationService_ConfirmPhoneNumber_FullMethodName  = "/authentication.AuthenticationService/ConfirmPhoneNumber"
+	AuthenticationService_RefreshToken_FullMethodName        = "/authentication.AuthenticationService/RefreshToken"
+	AuthenticationService_VerifyAccess_FullMethodName        = "/authentication.AuthenticationService/VerifyAccess"
 )
 
 // AuthenticationServiceClient is the client API for AuthenticationService service.
@@ -29,6 +32,9 @@ const (
 type AuthenticationServiceClient interface {
 	SignInByPhoneNumber(ctx context.Context, in *SignInByPhoneNumberRequest, opts ...grpc.CallOption) (*SignInByPhoneNumberResponse, error)
 	SignOut(ctx context.Context, in *SignOutRequest, opts ...grpc.CallOption) (*SignOutResponse, error)
+	ConfirmPhoneNumber(ctx context.Context, in *ConfirmPhoneNumberRequest, opts ...grpc.CallOption) (*ConfirmPhoneNumberResponse, error)
+	RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error)
+	VerifyAccess(ctx context.Context, in *VerifyAccessRequest, opts ...grpc.CallOption) (*VerifyAccessResponse, error)
 }
 
 type authenticationServiceClient struct {
@@ -57,12 +63,42 @@ func (c *authenticationServiceClient) SignOut(ctx context.Context, in *SignOutRe
 	return out, nil
 }
 
+func (c *authenticationServiceClient) ConfirmPhoneNumber(ctx context.Context, in *ConfirmPhoneNumberRequest, opts ...grpc.CallOption) (*ConfirmPhoneNumberResponse, error) {
+	out := new(ConfirmPhoneNumberResponse)
+	err := c.cc.Invoke(ctx, AuthenticationService_ConfirmPhoneNumber_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationServiceClient) RefreshToken(ctx context.Context, in *RefreshTokenRequest, opts ...grpc.CallOption) (*RefreshTokenResponse, error) {
+	out := new(RefreshTokenResponse)
+	err := c.cc.Invoke(ctx, AuthenticationService_RefreshToken_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationServiceClient) VerifyAccess(ctx context.Context, in *VerifyAccessRequest, opts ...grpc.CallOption) (*VerifyAccessResponse, error) {
+	out := new(VerifyAccessResponse)
+	err := c.cc.Invoke(ctx, AuthenticationService_VerifyAccess_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticationServiceServer is the server API for AuthenticationService service.
 // All implementations must embed UnimplementedAuthenticationServiceServer
 // for forward compatibility
 type AuthenticationServiceServer interface {
 	SignInByPhoneNumber(context.Context, *SignInByPhoneNumberRequest) (*SignInByPhoneNumberResponse, error)
 	SignOut(context.Context, *SignOutRequest) (*SignOutResponse, error)
+	ConfirmPhoneNumber(context.Context, *ConfirmPhoneNumberRequest) (*ConfirmPhoneNumberResponse, error)
+	RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error)
+	VerifyAccess(context.Context, *VerifyAccessRequest) (*VerifyAccessResponse, error)
 	mustEmbedUnimplementedAuthenticationServiceServer()
 }
 
@@ -75,6 +111,15 @@ func (UnimplementedAuthenticationServiceServer) SignInByPhoneNumber(context.Cont
 }
 func (UnimplementedAuthenticationServiceServer) SignOut(context.Context, *SignOutRequest) (*SignOutResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignOut not implemented")
+}
+func (UnimplementedAuthenticationServiceServer) ConfirmPhoneNumber(context.Context, *ConfirmPhoneNumberRequest) (*ConfirmPhoneNumberResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConfirmPhoneNumber not implemented")
+}
+func (UnimplementedAuthenticationServiceServer) RefreshToken(context.Context, *RefreshTokenRequest) (*RefreshTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefreshToken not implemented")
+}
+func (UnimplementedAuthenticationServiceServer) VerifyAccess(context.Context, *VerifyAccessRequest) (*VerifyAccessResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyAccess not implemented")
 }
 func (UnimplementedAuthenticationServiceServer) mustEmbedUnimplementedAuthenticationServiceServer() {}
 
@@ -125,6 +170,60 @@ func _AuthenticationService_SignOut_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthenticationService_ConfirmPhoneNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConfirmPhoneNumberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServiceServer).ConfirmPhoneNumber(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthenticationService_ConfirmPhoneNumber_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServiceServer).ConfirmPhoneNumber(ctx, req.(*ConfirmPhoneNumberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthenticationService_RefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServiceServer).RefreshToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthenticationService_RefreshToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServiceServer).RefreshToken(ctx, req.(*RefreshTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AuthenticationService_VerifyAccess_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyAccessRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServiceServer).VerifyAccess(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AuthenticationService_VerifyAccess_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServiceServer).VerifyAccess(ctx, req.(*VerifyAccessRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthenticationService_ServiceDesc is the grpc.ServiceDesc for AuthenticationService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -139,6 +238,18 @@ var AuthenticationService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SignOut",
 			Handler:    _AuthenticationService_SignOut_Handler,
+		},
+		{
+			MethodName: "ConfirmPhoneNumber",
+			Handler:    _AuthenticationService_ConfirmPhoneNumber_Handler,
+		},
+		{
+			MethodName: "RefreshToken",
+			Handler:    _AuthenticationService_RefreshToken_Handler,
+		},
+		{
+			MethodName: "VerifyAccess",
+			Handler:    _AuthenticationService_VerifyAccess_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -26,6 +26,12 @@ func (r *RepositoryImpl) GenerateToken(ctx context.Context, id string) (*Pair, e
 	return &Pair{AccessToken: response.GetAccessToken(), RefreshToken: response.GetRefreshToken()}, err
 }
 
-// func (r * RepositoryImpl) VerifyToken() {}
+func (r *RepositoryImpl) VerifyToken(ctx context.Context, token string) (*string, error) {
+	response, err := r.client.VerifyToken(ctx, &pb.VerifyTokenRequest{Token: token})
+	if err != nil {
+		return nil, err
+	}
+	return &response.Id, err
+}
 
 // func (r * RepositoryImpl) RevokeToken() {}
