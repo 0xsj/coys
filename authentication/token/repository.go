@@ -34,4 +34,10 @@ func (r *RepositoryImpl) VerifyToken(ctx context.Context, token string) (*string
 	return &response.Id, err
 }
 
-// func (r * RepositoryImpl) RevokeToken() {}
+func (r *RepositoryImpl) RevokeToken(ctx context.Context, token string) (*string, error) {
+	response, err := r.client.RevokeToken(ctx, &pb.RevokeTokenRequest{Token: token})
+	if err != nil {
+		return nil, err
+	}
+	return &response.Token, err
+}
