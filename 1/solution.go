@@ -16,6 +16,21 @@ func twoSum(nums []int, target int) []int {
 	return []int{}
 }
 
+// hashmap
+
+func twoSum2(nums []int, target int) []int {
+	hashmap := make(map[int]int, 0)
+	for i, num := range nums {
+		complement := target - num
+		if index, found := hashmap[complement]; found {
+			return []int{index, i}
+		}
+		hashmap[num] = i
+	}
+	return []int{}
+}
+
 func main() {
-	fmt.Println(twoSum([]int{2, 5, 7, 9, 19}, 9))
+	twoSum([]int{2, 5, 7, 9, 19}, 9)
+	fmt.Println(twoSum2([]int{2, 5, 7, 9, 19}, 9))
 }
