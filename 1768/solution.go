@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"testing"
 )
 
 // Try 1
@@ -41,6 +42,24 @@ func mergeAlternatively2(word1 string, word2 string) string {
 	}
 
 	return string(res)
+}
+
+func BenchmarkMergeByteSlice(b *testing.B) {
+	word1 := "hello"
+	word2 := "world"
+
+	for i := 0; i < b.N; i++ {
+		_ = mergeAlternatively(word1, word2)
+	}
+}
+
+func BenchmarkMergeStringConcat(b *testing.B) {
+	word1 := "hello"
+	word2 := "world"
+
+	for i := 0; i < b.N; i++ {
+		_ = mergeAlternatively2(word1, word2)
+	}
 }
 
 func main() {
