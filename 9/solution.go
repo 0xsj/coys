@@ -36,6 +36,23 @@ func isPalindrome2(x int) bool {
 	return numStr == reversedString
 }
 
+// Try 3 simplified
+func isPalindrome3(x int) bool {
+	if x < 0 {
+		return false
+	}
+
+	original, reversed := x, 0
+
+	for x > 0 {
+		digit := x % 10
+		reversed = reversed*10 + digit
+		x /= 10
+	}
+
+	return original == reversed
+}
+
 func main() {
 	fmt.Println(isPalindrome2(11211))
 	fmt.Println(isPalindrome2(121))
