@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math"
 	"strconv"
 )
@@ -12,7 +11,7 @@ func isPalindrome(x int) bool {
 		return false
 	}
 
-	reverse := 0
+	reverse := 1
 
 	for x > reverse {
 		reverse = reverse*10 + (x % 10)
@@ -51,10 +50,4 @@ func isPalindrome3(x int) bool {
 	}
 
 	return original == reversed
-}
-
-func main() {
-	fmt.Println(isPalindrome2(11211))
-	fmt.Println(isPalindrome2(121))
-	fmt.Println(isPalindrome2(-11211))
 }
