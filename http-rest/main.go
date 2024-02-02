@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"os"
 )
 
 func hello(w http.ResponseWriter, r *http.Request) {
@@ -20,11 +19,7 @@ func headers(w http.ResponseWriter, req *http.Request) {
 
 func main() {
 
-	env, exists := os.LookupEnv("PORT")
-	if !exists {
-	}
-
-	fmt.Println(env)
+	// fmt.Println(env)
 
 	port := 3000
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
