@@ -1,0 +1,12 @@
+version: "3.8"
+name: live-reload
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./:/app
