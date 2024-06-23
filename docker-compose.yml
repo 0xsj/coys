@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    ports:
+      - "4000:4000"
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    ports:
+      - "4001:4001"
