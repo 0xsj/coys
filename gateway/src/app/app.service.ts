@@ -16,7 +16,7 @@ export class AppService {
   }
 
   createUser(createUserInput: CreateUserInput) {
-    console.log('');
+    console.log('create user()');
     this.users.push(createUserInput);
     this.communicationClient.emit(
       'user-created',
