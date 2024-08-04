@@ -1,10 +1,12 @@
 package main
 
-import "github.com/0xsj/coys/src/libs/app"
+import (
+	"github.com/0xsj/coys/src/libs/app"
+)
 
 func main() {
-	module := NewAppModule()
-	app := app.NewApp(module)
+	appModule := NewAppModule()
+	app := app.NewApp(appModule)
 	port := 8080
 	app.Start(port)
 }

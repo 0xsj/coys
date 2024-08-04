@@ -1,3 +1,4 @@
+// app.go
 package app
 
 import (
@@ -9,21 +10,25 @@ import (
 	"reflect"
 	"syscall"
 	"time"
+
+	"github.com/0xsj/coys/src/libs/di"
 )
 
 // App represents the application with a router, modules, and metadata.
 type App struct {
-	Router   *http.ServeMux
-	Modules  []Module
-	Metadata map[string]interface{}
+	Router    *http.ServeMux
+	Modules   []Module
+	Metadata  map[string]interface{}
+	Container *di.Container
 }
 
 // NewApp initializes a new App with given modules and sets up default values.
 func NewApp(modules ...Module) *App {
 	app := &App{
-		Router:   http.NewServeMux(),
-		Modules:  []Module{},
-		Metadata: make(map[string]interface{}),
+		Router:    http.NewServeMux(),
+		Modules:   []Module{},
+		Metadata:  make(map[string]interface{}),
+		Container: di.NewContainer(), // Initialize the DI container here
 	}
 	app.RegisterModules(modules...)
 	return app
@@ -35,6 +40,7 @@ func (a *App) RegisterModules(modules ...Module) {
 		if module == nil {
 			continue
 		}
+		// Pass the container to the module
 		module.RegisterRoutes(a.Router)
 		module.RegisterControllers()
 		module.RegisterProviders()

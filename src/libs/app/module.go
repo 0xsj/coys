@@ -8,4 +8,3 @@ type Module interface {
 	RegisterProviders()
 }
 
-
