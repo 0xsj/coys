@@ -1,10 +1,10 @@
 package main
 
-// func main(){
-// 	const globalPrefix = "api"
-// 	app := AppFactory.create(AppModule);
-// 	app.setGlobalPrefix(globalPrefix)
-// 	Logger.log("service starting")
+import "github.com/0xsj/coys/src/libs/app"
 
-// 	app.serve(3000)
-// }
+func main() {
+	module := NewAppModule()
+	app := app.NewApp(module)
+	port := 8080
+	app.Start(port)
+}
